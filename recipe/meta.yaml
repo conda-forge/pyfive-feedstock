@@ -1,5 +1,5 @@
-{% set version = "0.2.0" %}
-{% set sha256 = "9ceacc50decd3ea3005e7ea9480bb22040075756ba3f1c6e7f411fe34c2b1f98" %}
+{% set version = "0.3.0" %}
+{% set sha256 = "f109ccd30ea348bf743891433f72a418c1d81ce19e5eded515aa456724ea94be" %}
 
 package:
   name: pyfive
@@ -12,6 +12,7 @@ source:
 
 build:
   number: 0
+  noarch: python
   script: python setup.py install --single-version-externally-managed --record record.txt
 
 requirements:
@@ -29,6 +30,7 @@ test:
 about:
   home: https://github.com/jjhelmus/pyfive
   license: BSD 3-Clause
+  license_file: LICENSE.txt
   summary: 'A pure Python HDF5 file reader'
 
 extra:
