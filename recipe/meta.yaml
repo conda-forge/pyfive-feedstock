@@ -1,35 +1,39 @@
-{% set version = "0.3.0" %}
-{% set sha256 = "f109ccd30ea348bf743891433f72a418c1d81ce19e5eded515aa456724ea94be" %}
+{% set name = "pyfive" %}
+{% set version = "0.4.0" %}
 
 package:
-  name: pyfive
+  name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  fn: pyfive-{{ version }}.tar.gz
-  url: https://pypi.io/packages/source/p/pyfive/pyfive-{{ version }}.tar.gz
-  sha256: {{ sha256 }}
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/pyfive-{{ version }}.tar.gz
+  sha256: 0ff913e0dc9a26c1bcbe28887f7a30ef9de95330054d868491c510ee288f817e
 
 build:
-  number: 0
   noarch: python
-  script: python setup.py install --single-version-externally-managed --record record.txt
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  number: 0
 
 requirements:
-  build:
-    - python
+  host:
+    - python >=3.7
     - setuptools
+    - pip
   run:
-    - python
+    - python >=3.7
     - numpy
 
 test:
   imports:
     - pyfive
+  commands:
+    - pip check
+  requires:
+    - pip
 
 about:
   home: https://github.com/jjhelmus/pyfive
-  license: BSD 3-Clause
+  license: BSD-3-Clause
   license_file: LICENSE.txt
   summary: 'A pure Python HDF5 file reader'
 
