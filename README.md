@@ -5,7 +5,7 @@ Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/pyfive-feedstoc
 
 Home: https://github.com/jjhelmus/pyfive
 
-Package license: BSD 3-Clause
+Package license: BSD-3-Clause
 
 Summary: A pure Python HDF5 file reader
 
