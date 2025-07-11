@@ -1,5 +1,5 @@
 {% set name = "pyfive" %}
-{% set version = "0.4.0" %}
+{% set version = "0.5.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,12 +7,12 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/pyfive-{{ version }}.tar.gz
-  sha256: 0ff913e0dc9a26c1bcbe28887f7a30ef9de95330054d868491c510ee288f817e
+  sha256: 17d33cfa5e8c639023f16cc2bbb7ebd10f2c645e2c9aee86eb6d7bafb2bd410c
 
 build:
   noarch: python
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-  number: 1
+  number: 0
 
 requirements:
   host:
