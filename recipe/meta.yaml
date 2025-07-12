@@ -12,13 +12,14 @@ source:
 build:
   noarch: python
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-  number: 0
+  number: 1
 
 requirements:
   host:
     - python {{ python_min }}
-    - setuptools
-    - pip
+    - pip !=21.3
+    - setuptools >=40.6.0
+    - setuptools_scm >=6.2
   run:
     - python >={{ python_min }}
     - numpy
