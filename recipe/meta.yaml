@@ -1,5 +1,5 @@
 {% set name = "pyfive" %}
-{% set version = "0.5.1" %}
+{% set version = "0.6.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/pyfive-{{ version }}.tar.gz
-  sha256: 01963f91492b623c2955ca3b42a1ce71554bac585457d191bac20bf6127e3c0e
+  sha256: bed2e3734c131234f4ff572819ecd37e82e5dd6578ea174bbd286f8e20b7346c
 
 build:
   noarch: python
@@ -34,7 +34,7 @@ test:
     - python {{ python_min }}
 
 about:
-  home: https://github.com/jjhelmus/pyfive
+  home: https://github.com/NCAS-CMS/pyfive
   license: BSD-3-Clause
   license_file: LICENSE.txt
   summary: 'A pure Python HDF5 file reader'
