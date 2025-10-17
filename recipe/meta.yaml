@@ -34,8 +34,8 @@ test:
   requires:
     - python {{ python_min }}
     - pip
-    - h5py  # link to same hdf5 lib with netcdf4
-    - netcdf4  # has history of broken packages on PyPI
+    - h5py
+    - netcdf4
     - pytest
     - pytest-cov
 
