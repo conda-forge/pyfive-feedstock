@@ -30,13 +30,20 @@ test:
   requires:
     - python {{ python_min }}
     - pip
+    - dask
+    - flask
+    - flask-cors
+    - h5netcdf
     - h5py
+    - moto
     - netcdf4
     - pytest
     - pytest-cov
+    - pytest-html
+    - pytest-xdist
+    - s3fs
   commands:
     - pip check
-    - pip install -e .[test]
     - pytest
   imports:
     - pyfive
