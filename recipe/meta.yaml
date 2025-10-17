@@ -1,5 +1,5 @@
 {% set name = "pyfive" %}
-{% set version = "0.8.0" %}
+{% set version = "0.9.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/pyfive-{{ version }}.tar.gz
-  sha256: eb19b424314f298381666011e8c571bef82d589e726f19b3564dee7c92705c01
+  sha256: 1d02f50c69d5e6d4c77132f9477b4e277b6f7621607ff92dd9bb3fd23222ce24
 
 build:
   noarch: python
@@ -29,9 +29,15 @@ test:
     - pyfive
   commands:
     - pip check
+    - pip install -e .[test]
+    - pytest
   requires:
-    - pip
     - python {{ python_min }}
+    - pip
+    - h5py  # link to same hdf5 lib with netcdf4
+    - netcdf4  # has history of broken packages on PyPI
+    - pytest
+    - pytest-cov
 
 about:
   home: https://github.com/NCAS-CMS/pyfive
