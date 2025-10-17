@@ -25,10 +25,8 @@ requirements:
     - numpy
 
 test:
-  imports:
-    - pyfive
-  commands:
-    - pip check
+  source_files:
+    - tests
   requires:
     - python {{ python_min }}
     - pip
@@ -36,6 +34,12 @@ test:
     - netcdf4
     - pytest
     - pytest-cov
+  commands:
+    - pip check
+    - pip install -e .[test]
+    - pytest
+  imports:
+    - pyfive
 
 about:
   home: https://github.com/NCAS-CMS/pyfive
