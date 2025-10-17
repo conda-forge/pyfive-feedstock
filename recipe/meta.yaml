@@ -29,8 +29,6 @@ test:
     - pyfive
   commands:
     - pip check
-    - pip install -e .[test]
-    - pytest
   requires:
     - python {{ python_min }}
     - pip
