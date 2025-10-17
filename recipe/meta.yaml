@@ -1,5 +1,5 @@
 {% set name = "pyfive" %}
-{% set version = "0.8.0" %}
+{% set version = "0.9.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/pyfive-{{ version }}.tar.gz
-  sha256: eb19b424314f298381666011e8c571bef82d589e726f19b3564dee7c92705c01
+  sha256: 1d02f50c69d5e6d4c77132f9477b4e277b6f7621607ff92dd9bb3fd23222ce24
 
 build:
   noarch: python
@@ -25,13 +25,28 @@ requirements:
     - numpy
 
 test:
-  imports:
-    - pyfive
+  source_files:
+    - tests
+  requires:
+    - python {{ python_min }}
+    - pip
+    - dask
+    - flask
+    - flask-cors
+    - h5netcdf
+    - h5py
+    - moto
+    - netcdf4
+    - pytest
+    - pytest-cov
+    - pytest-html
+    - pytest-xdist
+    - s3fs
   commands:
     - pip check
-  requires:
-    - pip
-    - python {{ python_min }}
+    - pytest
+  imports:
+    - pyfive
 
 about:
   home: https://github.com/NCAS-CMS/pyfive
