@@ -8,8 +8,6 @@ package:
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/pyfive-{{ version }}.tar.gz
   sha256: 907bc24b81b0437584aaa5908da1ebb6d0276b5dd1476c5a6c6f96b729bdd49e
-  patches:
-    - 0001-Add-core-dependency.patch
 
 build:
   noarch: python
