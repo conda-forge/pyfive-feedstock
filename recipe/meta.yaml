@@ -1,5 +1,5 @@
 {% set name = "pyfive" %}
-{% set version = "1.1.1" %}
+{% set version = "1.1.2" %}
 
 package:
   name: {{ name|lower }}
@@ -7,14 +7,12 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/pyfive-{{ version }}.tar.gz
-  sha256: a43e852947b9bc4703bc174d4e9cec77d61c2324d35961bbae9914aa69821ce5
-  patches:
-    - 0001-Add-core-dependency.patch
+  sha256: 907bc24b81b0437584aaa5908da1ebb6d0276b5dd1476c5a6c6f96b729bdd49e
 
 build:
   noarch: python
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-  number: 2
+  number: 0
 
 requirements:
   host:
@@ -45,7 +43,7 @@ test:
     - pytest-html
     - pytest-xdist
     - python-neo-lzf
-    - s3fs
+    - s3fs >=2025.9.0
   commands:
     - pip check
     - pytest --ignore=tests/test_filter_pipeline_v2.py::test_hdf5_filters
