@@ -31,7 +31,7 @@ test:
   requires:
     - python {{ python_min }}
     - pip
-    - botocore
+    - botocore >=1.43.90
     - dask
     - flask
     - flask-cors
