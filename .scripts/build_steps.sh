@@ -46,9 +46,26 @@ source run_conda_forge_build_setup
 
 
 # print and exit
-env | grep -E '^(AWS_CA_BUNDLE|REQUESTS_CA_BUNDLE)=' 2> /dev/null
-exit
+echo "=== CA bundle environment ==="
+printf 'AWS_CA_BUNDLE=%q\n' "${AWS_CA_BUNDLE-<unset>}"
+printf 'REQUESTS_CA_BUNDLE=%q\n' "${REQUESTS_CA_BUNDLE-<unset>}"
 
+python - <<'PY'
+import boto3
+import botocore
+import os
+
+print("boto3:", boto3.__version__)
+print("botocore:", botocore.__version__)
+print("AWS_CA_BUNDLE:", repr(os.environ.get("AWS_CA_BUNDLE")))
+print("REQUESTS_CA_BUNDLE:", repr(os.environ.get("REQUESTS_CA_BUNDLE")))
+
+session = boto3.Session()
+print("botocore ca_bundle:", repr(
+    session._session.get_config_variable("ca_bundle")
+))
+PY
+echo "============================"
 
 # make the build number clobber
 make_build_number "${FEEDSTOCK_ROOT}" "${RECIPE_ROOT}" "${CONFIG_FILE}"
