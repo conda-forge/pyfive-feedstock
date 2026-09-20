@@ -48,8 +48,8 @@ source run_conda_forge_build_setup
 # make the build number clobber
 make_build_number "${FEEDSTOCK_ROOT}" "${RECIPE_ROOT}" "${CONFIG_FILE}"
 
-# print and exit
-echo "=== CA bundle environment ==="
+# first check on AWS variables
+echo "=== CA bundle environment Check 1 ==="
 printf 'AWS_CA_BUNDLE=%q\n' "${AWS_CA_BUNDLE-<unset>}"
 printf 'REQUESTS_CA_BUNDLE=%q\n' "${REQUESTS_CA_BUNDLE-<unset>}"
 
@@ -75,6 +75,11 @@ else
         --clobber-file "${CI_SUPPORT}/clobber_${CONFIG}.yaml" \
         --extra-meta flow_run_id="${flow_run_id:-}" remote_url="${remote_url:-}" sha="${sha:-}"
     ( startgroup "Inspecting artifacts" ) 2> /dev/null
+
+    # inspect AWS variables after build
+    echo "=== CA bundle environment Check 2 ==="
+    printf 'AWS_CA_BUNDLE=%q\n' "${AWS_CA_BUNDLE-<unset>}"
+    printf 'REQUESTS_CA_BUNDLE=%q\n' "${REQUESTS_CA_BUNDLE-<unset>}"
 
     # inspect_artifacts was only added in conda-forge-ci-setup 4.9.4
     command -v inspect_artifacts >/dev/null 2>&1 && inspect_artifacts --recipe-dir "${RECIPE_ROOT}" -m "${CONFIG_FILE}" || echo "inspect_artifacts needs conda-forge-ci-setup >=4.9.4"
