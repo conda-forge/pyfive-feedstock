@@ -74,13 +74,11 @@ else
         --suppress-variables ${EXTRA_CB_OPTIONS:-} \
         --clobber-file "${CI_SUPPORT}/clobber_${CONFIG}.yaml" \
         --extra-meta flow_run_id="${flow_run_id:-}" remote_url="${remote_url:-}" sha="${sha:-}"
-    ( startgroup "Inspecting artifacts" ) 2> /dev/null
-
     # inspect AWS variables after build
     echo "=== CA bundle environment Check 2 ==="
     printf 'AWS_CA_BUNDLE=%q\n' "${AWS_CA_BUNDLE-<unset>}"
     printf 'REQUESTS_CA_BUNDLE=%q\n' "${REQUESTS_CA_BUNDLE-<unset>}"
-
+    ( startgroup "Inspecting artifacts" ) 2> /dev/null
     # inspect_artifacts was only added in conda-forge-ci-setup 4.9.4
     command -v inspect_artifacts >/dev/null 2>&1 && inspect_artifacts --recipe-dir "${RECIPE_ROOT}" -m "${CONFIG_FILE}" || echo "inspect_artifacts needs conda-forge-ci-setup >=4.9.4"
 
