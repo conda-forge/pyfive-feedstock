@@ -1,5 +1,5 @@
 {% set name = "pyfive" %}
-{% set version = "1.1.2" %}
+{% set version = "1.2.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/pyfive-{{ version }}.tar.gz
-  sha256: 907bc24b81b0437584aaa5908da1ebb6d0276b5dd1476c5a6c6f96b729bdd49e
+  sha256: b34616b7827d42c5f1b81689e1a25b3f6d05e9364de2eb89447c22b04419017f
 
 build:
   noarch: python
@@ -46,7 +46,12 @@ test:
     - s3fs >=2025.9.0
   commands:
     - pip check
-    - pytest --ignore=tests/test_filter_pipeline_v2.py::test_hdf5_filters
+    # either botocore or s3fs sets REQUESTS_CA_BUNDLE='' (empty string)
+    # this tosses an error after botocore=1.45.54 but only inside the conda build environment
+    # so we need to reset env -u REQUESTS_CA_BUNDLE -u AWS_CA_BUNDLE before running pytest
+    - python -c "import boto3; s=boto3.Session(); print('ca_bundle =', repr(s._session.get_config_variable('ca_bundle')))"
+    - python -c "import os; print('AWS_CA_BUNDLE =', repr(os.environ.get('AWS_CA_BUNDLE'))); print('REQUESTS_CA_BUNDLE =', repr(os.environ.get('REQUESTS_CA_BUNDLE')))"
+    - env -u REQUESTS_CA_BUNDLE -u AWS_CA_BUNDLE pytest --ignore=tests/test_filter_pipeline_v2.py::test_hdf5_filters
     - p5dump -h
   imports:
     - pyfive
