@@ -46,7 +46,7 @@ source run_conda_forge_build_setup
 
 
 # print and exit
-env | grep -E '^(AWS_CA_BUNDLE|REQUESTS_CA_BUNDLE)='
+env | grep -E '^(AWS_CA_BUNDLE|REQUESTS_CA_BUNDLE)=' 2> /dev/null
 exit
 
 
