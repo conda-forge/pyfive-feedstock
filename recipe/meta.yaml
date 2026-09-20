@@ -47,6 +47,7 @@ test:
     - s3fs >=2025.9.0
   commands:
     - pip check
+    - python -c "import os; print('AWS_CA_BUNDLE =', repr(os.environ.get('AWS_CA_BUNDLE'))); print('REQUESTS_CA_BUNDLE =', repr(os.environ.get('REQUESTS_CA_BUNDLE')))"
     - pytest --ignore=tests/test_filter_pipeline_v2.py::test_hdf5_filters
     - p5dump -h
   imports:
