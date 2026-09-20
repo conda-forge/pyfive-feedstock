@@ -45,6 +45,10 @@ setup_conda_rc "${FEEDSTOCK_ROOT}" "${RECIPE_ROOT}" "${CONFIG_FILE}"
 source run_conda_forge_build_setup
 
 
+# print and exit
+env | grep -E '^(AWS_CA_BUNDLE|REQUESTS_CA_BUNDLE)='
+exit
+
 
 # make the build number clobber
 make_build_number "${FEEDSTOCK_ROOT}" "${RECIPE_ROOT}" "${CONFIG_FILE}"
