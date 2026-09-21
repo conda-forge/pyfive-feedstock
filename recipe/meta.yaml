@@ -12,16 +12,17 @@ source:
 build:
   noarch: python
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-  number: 0
+  number: 1
 
 requirements:
   host:
-    - python {{ python_min }}
+    - python
     - pip !=21.3
     - setuptools >=80
     - setuptools_scm >=8
   run:
-    - python >={{ python_min }}
+    - python
+    - fsspec
     - numpy >=2
     - typing_extensions
 
@@ -29,7 +30,7 @@ test:
   source_files:
     - tests
   requires:
-    - python {{ python_min }}
+    - python
     - pip
     - dask
     - flask
@@ -51,6 +52,7 @@ test:
     # so we need to reset env -u REQUESTS_CA_BUNDLE -u AWS_CA_BUNDLE before running pytest
     - python -c "import boto3; s=boto3.Session(); print('ca_bundle =', repr(s._session.get_config_variable('ca_bundle')))"
     - python -c "import os; print('AWS_CA_BUNDLE =', repr(os.environ.get('AWS_CA_BUNDLE'))); print('REQUESTS_CA_BUNDLE =', repr(os.environ.get('REQUESTS_CA_BUNDLE')))"
+    - python -c "import pyfive"
     - env -u REQUESTS_CA_BUNDLE -u AWS_CA_BUNDLE pytest --ignore=tests/test_filter_pipeline_v2.py::test_hdf5_filters
     - p5dump -h
   imports:
