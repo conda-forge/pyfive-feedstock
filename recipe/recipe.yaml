@@ -1,0 +1,83 @@
+schema_version: 1
+
+context:
+  name: pyfive
+  version: "1.3.0"
+
+package:
+  name: ${{ name }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/${{ name }}-${{ version }}.tar.gz
+  sha256: 0f84ad954302b0137b6d03fabe44f4238730a669c96b3ee7225ec47cee14cc00
+
+build:
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  number: 0
+
+requirements:
+  host:
+    - python ${{ python_min }}.*
+    - pip !=21.3
+    - setuptools >=80
+    - setuptools_scm >=8
+  run:
+    - python ${{ python_min }}.*
+    - fsspec
+    - numpy >=2
+    - numcodecs >=0.16.5
+    - typing_extensions
+
+tests:
+  - python:
+      python_version:
+        - ${{ python_min }}.*
+        - "*"
+      imports:
+        - pyfive
+      pip_check: true
+  - files:
+      source:
+        - tests
+    requirements:
+      run:
+        - python ${{ python_min }}.*
+        - pip
+        - dask
+        - flask
+        - flask-cors
+        - h5netcdf
+        - h5py
+        - moto
+        - netcdf4 !=1.7.4  # github.com/Unidata/netcdf4-python/issues/1464
+        - pytest
+        - pytest-cov
+        - pytest-html
+        - pytest-xdist
+        - python-neo-lzf
+        - s3fs >=2025.9.0
+    script:
+      - pip check
+      # either botocore or s3fs sets REQUESTS_CA_BUNDLE='' (empty string)
+      # this tosses an error after botocore=1.45.54 but only inside the conda build environment
+      # so we need to reset env -u REQUESTS_CA_BUNDLE -u AWS_CA_BUNDLE before running pytest
+      - python -c "import boto3; s=boto3.Session(); print('ca_bundle =', repr(s._session.get_config_variable('ca_bundle')))"
+      - python -c "import os; print('AWS_CA_BUNDLE =', repr(os.environ.get('AWS_CA_BUNDLE'))); print('REQUESTS_CA_BUNDLE =', repr(os.environ.get('REQUESTS_CA_BUNDLE')))"
+      - python -c "import pyfive"
+      - env -u REQUESTS_CA_BUNDLE -u AWS_CA_BUNDLE pytest --ignore=tests/test_filter_pipeline_v2.py::test_hdf5_filters
+      - p5dump -h
+      - p5check -h
+
+about:
+  homepage: https://github.com/NCAS-CMS/pyfive
+  license: BSD-3-Clause
+  license_file: LICENSE.txt
+  summary: A pure Python HDF5 file reader
+
+extra:
+  recipe-maintainers:
+    - davidhassell
+    - valeriupredoi
+    - jjhelmus
