@@ -32,6 +32,9 @@ requirements:
 
 tests:
   - python:
+      python_version:
+        - ${{ python_min }}.*
+        - "*"
       imports:
         - pyfive
       pip_check: true
