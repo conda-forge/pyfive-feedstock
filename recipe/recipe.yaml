@@ -43,7 +43,7 @@ tests:
         - tests
     requirements:
       run:
-        - python ${{ python_min }}
+        - python ${{ python_min }}.*
         - pip
         - dask
         - flask
