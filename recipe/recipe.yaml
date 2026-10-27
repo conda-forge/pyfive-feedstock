@@ -24,7 +24,7 @@ requirements:
     - setuptools >=80
     - setuptools_scm >=8
   run:
-    - python ${{ python_min }}.*
+    - python >=${{ python_min }}
     - fsspec
     - numpy >=2
     - numcodecs >=0.16.5
